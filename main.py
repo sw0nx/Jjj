@@ -26,19 +26,29 @@ class BannerView(View):
     def __init__(self):
         super().__init__(timeout=None)  # 무제한 유지
         button1 = Button(label="✅ 파트너 표시", style=discord.ButtonStyle.green, row=0)
-        button2 = Button(label="❌ 파트너 가리기", style=discord.ButtonStyle.red, row=0)
+        button2 = Button(label="<:emoji_20:1403939777266323558> 파트너 가리기", style=discord.ButtonStyle.red, row=0)
 
         async def button1_callback(interaction):
             role = interaction.guild.get_role(ROLE_ID)
-            if role:
-                await interaction.user.add_roles(role)
-                await interaction.response.send_message("✅ 역할 지급 완료!", ephemeral=True)  # 본인만 보이게
+            if not role:
+                await interaction.response.send_message("❌ 역할을 찾을 수 없습니다.", ephemeral=True)
+                return
+            if role in interaction.user.roles:
+                await interaction.response.send_message("⚠ 이미 이 역할이 있습니다!", ephemeral=True)
+                return
+            await interaction.user.add_roles(role)
+            await interaction.response.send_message("✅ 역할 지급 완료!", ephemeral=True)
 
         async def button2_callback(interaction):
             role = interaction.guild.get_role(ROLE_ID)
-            if role:
-                await interaction.user.remove_roles(role)
-                await interaction.response.send_message("❌ 역할 제거 완료!", ephemeral=True)
+            if not role:
+                await interaction.response.send_message("❌ 역할을 찾을 수 없습니다.", ephemeral=True)
+                return
+            if role not in interaction.user.roles:
+                await interaction.response.send_message("⚠ 이 역할이 없습니다!", ephemeral=True)
+                return
+            await interaction.user.remove_roles(role)
+            await interaction.response.send_message("❌ 역할 제거 완료!", ephemeral=True)
 
         button1.callback = button1_callback
         button2.callback = button2_callback
