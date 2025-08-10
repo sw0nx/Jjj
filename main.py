@@ -25,8 +25,8 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 class BannerView(View):
     def __init__(self):
         super().__init__(timeout=None)  # 무제한 유지
-        button1 = Button(label="✅ 파트너 표시", style=discord.ButtonStyle.green, row=0)
-        button2 = Button(label="<:emoji_20:1403939777266323558> 파트너 가리기", style=discord.ButtonStyle.red, row=0)
+        button1 = Button(label="파트너 표시", style=discord.ButtonStyle.green, row=0)
+        button2 = Button(label="파트너 가리기", style=discord.ButtonStyle.red, row=0)
 
         async def button1_callback(interaction):
             role = interaction.guild.get_role(ROLE_ID)
