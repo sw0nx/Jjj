@@ -3,14 +3,14 @@ import discord
 from discord.ext import commands
 from discord.ui import Button, View
 
-# ===== 환경 변수에서 토큰 읽기 =====
+# ===== 환경변수에서 토큰 불러오기 =====
 TOKEN = os.getenv("BOT_TOKEN")
 
 # ===== 설정 =====
-GUILD_ID = 1398256208887939214
-CHANNEL_ID = 1401731162111610890
-ROLE_ID = 1401917813601599580
-MESSAGE_ID_FILE = "banner_message_id.txt"
+GUILD_ID = 1398256208887939214  # 서버 ID
+CHANNEL_ID = 1401731162111610890  # 배너를 보낼 채널 ID
+ROLE_ID = 1401917813601599580    # 지급/제거할 역할 ID
+MESSAGE_ID_FILE = "banner_message_id.txt"  # 메시지 ID 저장 파일
 
 # 인텐트 설정
 intents = discord.Intents.default()
@@ -24,21 +24,21 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # ===== 버튼 뷰 =====
 class BannerView(View):
     def __init__(self):
-        super().__init__(timeout=None)
-        button1 = Button(label="✅ 파트너 표시", style=discord.ButtonStyle.green)
-        button2 = Button(label="❌ 파트너 가리기", style=discord.ButtonStyle.red)
+        super().__init__(timeout=None)  # 무제한 유지
+        button1 = Button(label="✅ 파트너 표시", style=discord.ButtonStyle.green, row=0)
+        button2 = Button(label="<:emoji_20:1403939777266323558> 파트너 가리기", style=discord.ButtonStyle.red, row=0)
 
         async def button1_callback(interaction):
             role = interaction.guild.get_role(ROLE_ID)
             if role:
                 await interaction.user.add_roles(role)
-            await interaction.response.defer()
+                await interaction.response.send_message("✅ 역할 지급 완료!", ephemeral=True)  # 본인만 보이게
 
         async def button2_callback(interaction):
             role = interaction.guild.get_role(ROLE_ID)
             if role:
                 await interaction.user.remove_roles(role)
-            await interaction.response.defer()
+                await interaction.response.send_message("❌ 역할 제거 완료!", ephemeral=True)
 
         button1.callback = button1_callback
         button2.callback = button2_callback
@@ -46,7 +46,7 @@ class BannerView(View):
         self.add_item(button2)
 
 
-# ===== 봇 이벤트 =====
+# ===== 봇 시작 이벤트 =====
 @bot.event
 async def on_ready():
     print(f"✅ 로그인됨: {bot.user}")
