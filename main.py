@@ -7,9 +7,9 @@ from discord.ui import Button, View
 TOKEN = os.getenv("BOT_TOKEN")
 
 # ===== 설정 =====
-GUILD_ID = 1398256208887939214  # 서버 ID
-CHANNEL_ID = 1401731162111610890  # 배너를 보낼 채널 ID
-ROLE_ID = 1401917813601599580    # 지급/제거할 역할 ID
+GUILD_ID = 1406418646237974608  # 서버 ID
+CHANNEL_ID = 1406433119225253991  # 배너를 보낼 채널 ID
+ROLE_ID = 1406434743473672313    # 지급/제거할 역할 ID
 MESSAGE_ID_FILE = "banner_message_id.txt"  # 메시지 ID 저장 파일
 
 # 인텐트 설정
